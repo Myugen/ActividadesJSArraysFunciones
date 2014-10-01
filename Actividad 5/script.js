@@ -45,13 +45,14 @@ function obtenerPeorNota(clase) {
 }
 //Creacion del array
 var clase = new Array();
+var alumno = new Array();
 for (var i = 0; i < 10; i++) {
     for (var j = 0; j < 2; j++) {
         var variable;
         switch (j) {
             case 0:
                 variable = prompt("ALUMNO " + i + "\nIntroduzca el nombre del alumno: ");
-                clase[i, j] = variable;
+                alumno[j] = variable;
                 break;
             case 1:
                 var correcto = false;
@@ -61,10 +62,11 @@ for (var i = 0; i < 10; i++) {
                         variable = parseInt(prompt("AVISO, el dato introducido no es numérico. Vuelva a introducirlo:"));
                     else
                         correcto = true;
-                clase[i, j] = variable;
+                clase[j] = variable;
                 break;
         }
     }
+    clase.push(alumno);
 }
 //Menu
 var salir = false;
