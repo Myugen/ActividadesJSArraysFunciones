@@ -27,7 +27,20 @@ function obtenerMedia (clase) {
     media = media/clase.length;
     return media;
 }
-
+function obtenerMejorNota(clase) {
+    var candidato = clase[0];
+    for (var i = 1; i < clase.lenght; i++)
+        if (candidato[1] < clase[i][1])
+            candidato = clase[i];
+    return candidato;
+}
+function obtenerPeorNota(clase) {
+    var candidato = clase[0];
+    for (var i = 1; i < clase.lenght; i++)
+        if (candidato[1] > clase[i][1])
+            candidato = clase[i];
+    return candidato;
+}
 var clase = new Array();
 for (var i = 0; i < 10; i++) {
     for (var j = 0; j < 2; j++) {
