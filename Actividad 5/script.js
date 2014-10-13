@@ -1,7 +1,7 @@
 //Funciones
 function buscarAlumno(clase, nombre) {
     for (var i = 0; i < clase.length; i++)
-        if (clase[i, 0] == nombre)
+        if (clase[i].hasOwnProperty(nombre))
             return i;
     return (-1);
 }
@@ -9,14 +9,14 @@ function modificarNota(clase) {
     var nombre = prompt("Escribe el nombre del alumno:");
     var alumnoBuscado = buscarAlumno(clase, nombre);
     if (alumnoBuscado != -1) {
-        var notaNueva = parseInt(prompt("Alumno - " + clase[alumnoBuscado, 0] + "\nEscriba nueva nota:"));
+        var notaNueva = parseInt(prompt("Alumno - " + Object.keys(clase[i]) + "\nEscriba nueva nota:"));
         var correcto = false;
         while(!correcto)
             if(isNaN(notaNueva))
                 notaNueva = parseInt(prompt("AVISO, el dato introducido no es numérico. Vuelva a introducirlo:"));
             else
                 correcto = true;
-        clase[alumnoBuscado, 1] = notaNueva;
+        clase[alumnoBuscado][nombre] = notaNueva;
         alert("Nota modificada");
     }
     else
@@ -25,55 +25,45 @@ function modificarNota(clase) {
 function obtenerMedia (clase) {
     var media = 0;
     for (var i = 0; i < clase.length; i++)
-        media += clase[i, 1];
+        media += clase[i][Object.keys(clase[i])];
     media = media/clase.length;
     return media;
 }
 function obtenerMejorNota(clase) {
     var candidato = clase[0];
-    for (var i = 1; i < clase.lenght; i++)
-        if (candidato[1] < clase[i, 1])
+    for (var i = 1; i < clase.length; i++)
+        if (candidato[Object.keys(candidato)] < clase[i][Object.keys(clase[i])])
             candidato = clase[i];
     return candidato;
 }
 function obtenerPeorNota(clase) {
     var candidato = clase[0];
-    for (var i = 1; i < clase.lenght; i++)
-        if (candidato[1] > clase[i, 1])
+    for (var i = 1; i < clase.length; i++)
+        if (candidato[Object.keys(candidato)] > clase[i][Object.keys(clase[i])])
             candidato = clase[i];
     return candidato;
 }
 //Creacion del array
 var clase = new Array();
-var alumno = new Array();
 for (var i = 0; i < 10; i++) {
-    for (var j = 0; j < 2; j++) {
-        var variable;
-        switch (j) {
-            case 0:
-                variable = prompt("ALUMNO " + i + "\nIntroduzca el nombre del alumno: ");
-                alumno[j] = variable;
-                break;
-            case 1:
-                var correcto = false;
-                variable = parseInt(prompt("ALUMNO " + i + "\nIntroduzca la nota del alumno:"));
-                while(!correcto)
-                    if (isNaN(variable))
-                        variable = parseInt(prompt("AVISO, el dato introducido no es numérico. Vuelva a introducirlo:"));
-                    else
-                        correcto = true;
-                clase[j] = variable;
-                break;
-        }
-    }
-    clase.push(alumno);
+    var alumno = {};
+    var nombre = prompt("Nombre del alumno:");
+    var nota = parseInt(prompt("Nota del alumno:"));
+    var correcto = false;
+    while(!correcto)
+        if(isNaN(nota))
+            nota = parseInt(prompt("AVISO, el dato introducido no es numérico. Vuelva a introducirlo:"));
+        else
+            correcto = true;
+    alumno[nombre] = nota;
+    clase[i] = alumno;
 }
 //Menu
 var salir = false;
 while(!salir) {
     var correcto = false;
     while(!correcto) {
-        var opcion = parseInt(prompt("MENÚ:\n[1]Buscar alumno.\n[2]Modificar nota de alumno.\n[3]Obtener media\n[4]Obtener el alumno con más nota.\n[5]Obtener el alumno con menos nota.\nElija una opción:"));
+        var opcion = parseInt(prompt("MENÚ:\n[1]Buscar alumno.\n[2]Modificar nota de alumno.\n[3]Obtener media\n[4]Obtener el alumno con más nota.\n[5]Obtener el alumno con menos nota.\n[0]Salir.\nElija una opción:"));
         if(isNaN(opcion))
             alert("La opción introducida no es numérica");
         else
@@ -83,7 +73,7 @@ while(!salir) {
         case 1: var nombre = prompt("Escriba el nombre del alumno:");
             var alumnoBuscado = buscarAlumno(clase, nombre);
             if(alumnoBuscado != -1)
-                alert("Alumno - " + clase[alumnoBuscado, 0] + "\nNota: " + clase[alumnoBuscado, 1]);
+                alert("Alumno - " + Object.keys(clase[alumnoBuscado]) + "\nNota: " + clase[alumnoBuscado][nombre]);
             else
                 alert("No existe un alumno con ese nombre.")
             break;
@@ -93,10 +83,12 @@ while(!salir) {
             alert("Media de la clase: " + media);
             break;
         case 4: var alumnoMejorNota = obtenerMejorNota(clase);
-            alert("Alumno con mejor nota.\nNombre: " + alumnoMejorNota[0] + "\nNota:" + alumnoMejorNota[1]);
+            alert("Alumno con mejor nota.\nNombre: " + Object.keys(alumnoMejorNota) + "\nNota:" + alumnoMejorNota[Object.keys(alumnoMejorNota)]);
             break;
         case 5: var alumnoPeorNota = obtenerPeorNota(clase);
-            alert("Alumno con peor nota.\nNombre: " + alumnoPeorNota[0] + "\nNota:" + alumnoPeorNota[1]);
+            alert("Alumno con peor nota.\nNombre: " + Object.keys(alumnoPeorNota) + "\nNota:" + alumnoPeorNota[Object.keys(alumnoPeorNota)]);
+            break;
+        case 0: salir = true;
             break;
     }
 }
